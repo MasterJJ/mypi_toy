@@ -24,7 +24,10 @@ Data3 = {'Interest_Rate': [5, 5.5, 6, 5.5, 5.25, 6.5, 7, 8, 7.5, 8.5],
 df3 = DataFrame(Data3, columns=['Interest_Rate', 'Stock_Index_Price'])
 
 root = tk.Tk()
-
+'''
+## fullscreen mode 
+root.attributes("-fullscreen", True)
+'''
 figure1 = plt.Figure(figsize=(6, 5), dpi=100)
 ax1 = figure1.add_subplot(111)
 bar1 = FigureCanvasTkAgg(figure1, root)
