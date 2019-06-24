@@ -37,7 +37,8 @@ ax2.set_title('Year Vs. Unemployment Rate')
 
 def data_gen(t=0):
     cnt = 0
-    fb = open('test.txt', 'r')
+    fb = open('/run/shm/vital_data.txt', 'r')
+    #fb = open('test.txt', 'r')
     while cnt < 100000:
         sleep(0.01)
         fb.seek(0)
@@ -47,7 +48,8 @@ def data_gen(t=0):
         print(split_str[1])
         cnt += 1
         t += 0.1
-        yield t, int(split_str[0]) * 0.1
+        yield t, int(split_str[0])
+        #yield t, int(split_str[0]) * 0.01
         '''
         cnt += 1
         t += 0.1
@@ -58,7 +60,8 @@ def data_gen(t=0):
     fb.close()
 
 def init():
-    ax2.set_ylim(-1.1, 1.1)
+    #ax2.set_ylim(-1.1, 1.1)
+    ax2.set_ylim(0, 150)
     ax2.set_xlim(0, 10)
     del xdata[:]
     del ydata[:]
