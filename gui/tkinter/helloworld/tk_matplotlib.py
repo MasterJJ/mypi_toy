@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.animation as animation
 import numpy as np
+from time import sleep
+
+
 
 Data1 = {'Country': ['US', 'CA', 'GER', 'UK', 'FR'],
          'GDP_Per_Capita': [45000, 42000, 52000, 49000, 47000]
@@ -34,11 +37,25 @@ ax2.set_title('Year Vs. Unemployment Rate')
 
 def data_gen(t=0):
     cnt = 0
+    fb = open('test.txt', 'r')
     while cnt < 100000:
+        sleep(0.01)
+        fb.seek(0)
+        sbuf = fb.readline()
+        split_str = sbuf.split(",", 1)
+        print(split_str[0])
+        print(split_str[1])
+        cnt += 1
+        t += 0.1
+        yield t, int(split_str[0]) * 0.1
+        '''
         cnt += 1
         t += 0.1
         yield t, np.sin(2*np.pi*t) * np.exp(-t/10.)
+        # yield t, 1
+        '''
 
+    fb.close()
 
 def init():
     ax2.set_ylim(-1.1, 1.1)
