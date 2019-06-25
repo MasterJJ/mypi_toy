@@ -5,19 +5,16 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.animation as animation
 from time import sleep
 
-
 root = tk.Tk()
-
 notebook = tkinter.ttk.Notebook(root, width=600, height=500)
 notebook.pack()
 
 frame1 = tkinter.Frame(root)
-notebook.add(frame1, text="페이지1")
+notebook.add(frame1, text="page1")
 
 frame2 = tkinter.Frame(root)
-notebook.add(frame2, text="페이지2")
+notebook.add(frame2, text="page2")
 notebook_page_switch = 1
-
 
 '''
 ## fullscreen mode 
@@ -32,7 +29,7 @@ canvas1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
 ax1.set_title('rate1')
 
 
-figure2 = plt.Figure(figsize=(5, 4), dpi=100)
+figure2 = plt.Figure(figsize=(6, 5), dpi=100)
 ax2 = figure2.add_subplot(111)
 canvas2 = FigureCanvasTkAgg(figure2, frame2)
 #canvas2 = FigureCanvasTkAgg(figure2, root)
@@ -64,14 +61,19 @@ def switchUI():
         notebook.select(notebook_page_switch)
         ani.running = True
         ani_hreatraw.running = False
-    plt.draw()
+
+    del xdata_hr[:]
+    del ydata_hr[:]
+    del xdata[:]
+    del ydata[:]
+    plt.clf()
     notebook_page_switch += 1
 
 figure1.canvas.mpl_connect("button_press_event", move_cursor)
 figure2.canvas.mpl_connect("button_press_event", move_cursor)
 
-button1 = tk.Button(root, overrelief="solid", text="test", width=15, command=switchUI, repeatdelay=1000, repeatinterval=100)
-button1.pack()
+#button1 = tk.Button(root, overrelief="solid", text="test", width=15, command=switchUI, repeatdelay=1000, repeatinterval=100)
+#button1.pack()
 
 
 
@@ -79,7 +81,7 @@ def data_gen_heartraw(tick=0):
     cnt = 0
     #fb = open('/run/shm/vital_data.txt', 'r')
     fb = open('test.txt', 'r')
-    while cnt < 100000:
+    while True:
         #sleep(0.01)
         fb.seek(0)
         sbuf = fb.readline()
@@ -87,7 +89,11 @@ def data_gen_heartraw(tick=0):
         #print(split_str[0])
         #print(split_str[1])
         cnt += 1
-        tick += 0.01
+        tick += 0.1
+        if tick > 10:
+            tick = 0
+            init_heartraw()
+
         yield tick, int(split_str[0])
     fb.close()
 
@@ -122,30 +128,27 @@ def run_heartraw(data):
 
 
 
-ani_hreatraw = animation.FuncAnimation(figure1, run_heartraw, data_gen_heartraw, blit=False, interval=10,
+ani_hreatraw = animation.FuncAnimation(figure1, run_heartraw, data_gen_heartraw, blit=False, interval=100,
                               repeat=False, init_func=init_heartraw)
 
 def data_gen(t=0):
     cnt = 0
     #fb = open('/run/shm/vital_data.txt', 'r')
     fb = open('test.txt', 'r')
-    while cnt < 100000:
-        #sleep(0.01)
+    while True:
         fb.seek(0)
         sbuf = fb.readline()
         split_str = sbuf.split(",", 1)
         #print(split_str[0])
         #print(split_str[1])
         cnt += 1
-        t += 0.01
+        t += 0.1
+        if t > 10:
+            t = 0
+            init()
+
         yield t, int(split_str[0])
         #yield t, int(split_str[0]) * 0.01
-        '''
-        cnt += 1
-        t += 0.1
-        yield t, np.sin(2*np.pi*t) * np.exp(-t/10.)
-        # yield t, 1
-        '''
 
     fb.close()
 
@@ -163,7 +166,6 @@ line, = ax2.plot([], [], lw=2)
 ax2.grid()
 xdata, ydata = [], []
 
-
 def run(data):
     # update the data
     t, y = data
@@ -179,8 +181,7 @@ def run(data):
     return line,
 
 
-
-ani = animation.FuncAnimation(figure2, run, data_gen, blit=False, interval=10,
+ani = animation.FuncAnimation(figure2, run, data_gen, blit=False, interval=100,
                               repeat=False, init_func=init)
 
 root.mainloop()
