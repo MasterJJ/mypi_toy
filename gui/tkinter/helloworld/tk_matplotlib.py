@@ -49,22 +49,22 @@ def switchUI():
     print("Switch UI Bt")
     global notebook_page_switch
     if notebook_page_switch == 1:
-        ani.event_source.stop()
+        #ani.event_source.stop()
         ani.running = False
-        ani_hreatraw.event_source.start()
+        #ani_hreatraw.event_source.start()
         ani_hreatraw.running = True
 
         notebook.select(notebook_page_switch)
-        print("Switch UI Bt    1")
+        print("Switch UI Bt    1 go page 2")
     else:
-        print("Switch UI Bt    2")
+        print("Switch UI Bt    2 go page 1")
         notebook_page_switch = 0
-        ani_hreatraw.event_source.stop()
-        ani.event_source.start()
+        #ani_hreatraw.event_source.stop()
+        #ani.event_source.start()
         notebook.select(notebook_page_switch)
         ani.running = True
         ani_hreatraw.running = False
-
+    plt.draw()
     notebook_page_switch += 1
 
 figure1.canvas.mpl_connect("button_press_event", move_cursor)
@@ -80,7 +80,7 @@ def data_gen_heartraw(tick=0):
     #fb = open('/run/shm/vital_data.txt', 'r')
     fb = open('test.txt', 'r')
     while cnt < 100000:
-        sleep(0.01)
+        #sleep(0.01)
         fb.seek(0)
         sbuf = fb.readline()
         split_str = sbuf.split(",", 1)
@@ -130,7 +130,7 @@ def data_gen(t=0):
     #fb = open('/run/shm/vital_data.txt', 'r')
     fb = open('test.txt', 'r')
     while cnt < 100000:
-        sleep(0.01)
+        #sleep(0.01)
         fb.seek(0)
         sbuf = fb.readline()
         split_str = sbuf.split(",", 1)
