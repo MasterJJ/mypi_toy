@@ -1,8 +1,11 @@
-import tkinter.ttk
 import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.animation as animation
+from PIL import ImageTk, Image
+from tkinter import Label
+from tkinter import ttk
+from tkinter import StringVar
 from time import sleep
 
 root = tk.Tk()
@@ -22,14 +25,43 @@ __grid_tick_x_count_p2 = 0
 root.attributes("-fullscreen", True)
 '''
 
-
-root.config(background='red', cursor='none')
+root.geometry('700x500')
+root.config(background='white', cursor='none')
 figure1 = plt.Figure(figsize=(6, 5), dpi=100)
+figure2 = plt.Figure(figsize=(2, 5), dpi=100)
+ax5 = figure2.add_subplot(311)
 ax1 = figure1.add_subplot(211)
+
 canvas1 = FigureCanvasTkAgg(figure1, root)
-#bar1 = FigureCanvasTkAgg(figure1, root)
+
 canvas1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
 ax1.set_title('rate1')
+
+## image
+img = ImageTk.PhotoImage(Image.open("img.png"))
+label_1 = Label(root, image = img)
+label_1.pack(side = "top", fill = "both", expand = "yes")
+#label_1.place(x = 5, y = 5)
+label_1.place(relx = 0.8, rely = 0.1)
+
+
+## firgure 2
+#canvas2 = FigureCanvasTkAgg(figure2, root)
+#canvas2.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+
+
+## textbox 1
+rateText1 = StringVar()
+rateText1_box = ttk.Entry(root, width = 4,  font =("Helvetica", 40), textvariable = rateText1)
+rateText1_box.pack()
+#rateText1_box.place(x = 100, y = 200)
+rateText1_box.place(relx = 0.8, rely = 0.35)
+
+## textbox  2
+rateText2 = StringVar()
+rateText2_box = ttk.Entry(root, width = 4,  font =("Helvetica", 40), textvariable = rateText2)
+rateText2_box.pack()
+rateText2_box.place(relx = 0.8, rely = 0.7)
 
 ax2 = figure1.add_subplot(212)
 ax2.set_title('rate2')
@@ -94,6 +126,8 @@ def data_gen_heartraw():
             __grid_tick_x_count_p1 = 0
             init_heartraw()
 
+        rateText1.set("dd")
+        #rateText1_box.insert(tk.END, "dd")
         yield __grid_tick_x_count_p1, int(split_str[0])
     fb.close()
 
