@@ -52,14 +52,14 @@ label_1.place(relx = 0.8, rely = 0.1)
 
 ## textbox 1
 rateText1 = StringVar()
-rateText1_box = ttk.Entry(root, width = 4,  font =("Helvetica", 40), textvariable = rateText1)
+rateText1_box = ttk.Entry(root, width = 4, justify=tk.CENTER, font =("Helvetica", 40), textvariable = rateText1)
 rateText1_box.pack()
 #rateText1_box.place(x = 100, y = 200)
 rateText1_box.place(relx = 0.8, rely = 0.35)
 
 ## textbox  2
 rateText2 = StringVar()
-rateText2_box = ttk.Entry(root, width = 4,  font =("Helvetica", 40), textvariable = rateText2)
+rateText2_box = ttk.Entry(root, width = 4, justify=tk.CENTER, font =("Helvetica", 40), textvariable = rateText2)
 rateText2_box.pack()
 rateText2_box.place(relx = 0.8, rely = 0.7)
 
